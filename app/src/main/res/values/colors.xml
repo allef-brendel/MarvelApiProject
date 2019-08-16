@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="grey">#ddd</color>
+    <color name="black">#000</color>
+
+    <color name="md_white_1000">#ddd</color>
+
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">#000</color>
+    <color name="colorAccent">#ddd</color>
+
+    <color name="colorPrimarytext">#ddd</color>
+    <color name="colorSecondText">#999</color>
+    <color name="colorLink">#1ea4f7</color>
+    <color name="colorCardViwe">#212121</color>
+
+    <color name="colorFAB">#FF9800</color>
+    <color name="colorFabPressed">#F57C00</color>
+</resources>

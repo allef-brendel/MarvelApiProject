@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    tools:context=".QuadrinhoDetalheActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_main"
+        android:elevation="4dp"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_marginTop="@dimen/padding_top_toolbar"
+        android:layout_alignParentLeft="true"
+        app:titleTextColor="@color/colorPrimarytext"
+        app:subtitleTextColor="@color/colorSecondText"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <LinearLayout
+        android:id="@+id/linearCarrinho"
+        android:orientation="vertical"
+        android:layout_below="@+id/tb_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
+
+    <TextView
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:id="@+id/textCarrinhoTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_height="wrap_content"
+            android:text="R$ "/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:id="@+id/textPrecoProduto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Qtd: "/>
+
+        <TextView
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:paddingLeft="10dp"
+            android:id="@+id/textQuantProduto"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <Button
+            android:textSize="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/botaoComprarCarrinho"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:background="@color/colorPrimary"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/md_white_1000"
+            android:padding="5dp"
+            android:text="Comprar"/>
+
+        <Button
+            android:textSize="12dp"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:id="@+id/botaoAdicionarCarrinho"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/md_white_1000"
+            android:padding="5dp"
+            android:text="adicionar item"/>
+
+
+        </LinearLayout>
+        <ListView
+            android:id="@+id/listViewCarrinho"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
+    </LinearLayout>
+</RelativeLayout>
