@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.e.marvelapiproject.R;
 import com.e.marvelapiproject.interfaces.RecycleViewOnClickListinerHack;
 import com.e.marvelapiproject.objects.Quadrinho;
@@ -18,6 +19,7 @@ import java.util.List;
 
     public class QuadrinhoAdapter extends RecyclerView.Adapter<QuadrinhoAdapter.MyViewHolder> {
 
+        private Context context;
         private List<Quadrinho> mList;
         private LayoutInflater mLayoutInflater;
         private RecycleViewOnClickListinerHack mRecycleViewOnClickListinerHack;
@@ -25,9 +27,9 @@ import java.util.List;
         public QuadrinhoAdapter(Context c, List<Quadrinho> l){
             mList = l;
             mLayoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            this.context = c;
         }
 
-        // Inflate do card View
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,23 +38,21 @@ import java.util.List;
             return mvh;
         }
 
-        // Setando os itens no Card View
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-            holder.iv_personagem.setImageResource(mList.get(position).getFoto());
-            holder.tv_nome.setText(mList.get(position).getTitulo());
-            holder.tv_clan.setText(mList.get(position).getQuantPaginas());
-            holder.tv_preco.setText(mList.get(position).getPrecos());
+                holder.tv_nome.setText(mList.get(position).getTitulo());
+                holder.tv_clan.setText(mList.get(position).getQuantPaginas());
+                holder.tv_preco.setText(mList.get(position).getPrecos());
 
-        }
+                Glide.with(context).load(mList.get(position).getUrl() + "/portrait_medium.jpg").into(holder.iv_personagem);
+            }
 
         @Override
         public int getItemCount() {
             return mList.size();
         }
 
-        // View Holder
         public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             public ImageView iv_personagem;
@@ -60,8 +60,6 @@ import java.util.List;
             public TextView tv_clan;
             public TextView tv_preco;
 
-
-            // View Holder
             public MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 

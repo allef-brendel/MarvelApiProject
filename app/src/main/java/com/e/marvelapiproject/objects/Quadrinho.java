@@ -6,14 +6,22 @@ public class Quadrinho {
     public String precos;
     public String quantPaginas;
     public String descricao;
+    public String url;
 
     public int foto;
 
-    public Quadrinho(String titulo, String precos, int foto) {
+    public Quadrinho(String titulo, String precos, String url) {
         this.titulo = titulo;
         this.precos = precos;
-        this.quantPaginas = quantPaginas;
-        this.foto = foto;
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public void setDescricao(String descricao) {

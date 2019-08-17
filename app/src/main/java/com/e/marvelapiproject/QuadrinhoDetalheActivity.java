@@ -53,14 +53,11 @@ public class QuadrinhoDetalheActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         imageView = findViewById(R.id.imageVIewQuadrinho);
-
         textView = findViewById(R.id.textViewDescricao);
         textView2 = findViewById(R.id.precoSecond);
         textView3 = findViewById(R.id.quantPag);
         textView4 = findViewById(R.id.textTitulo);
-
         editText = findViewById(R.id.editTextQuantidade);
-
         button2 = findViewById(R.id.botaoCarrinho);
 
         Intent it = getIntent();

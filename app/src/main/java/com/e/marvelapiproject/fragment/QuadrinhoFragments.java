@@ -44,13 +44,10 @@ public class QuadrinhoFragments extends Fragment implements RecycleViewOnClickLi
         //RecyclerView
         mRecyclerView = view.findViewById(R.id.rv_fragment);
         mRecyclerView.setHasFixedSize(true);
-
-
         mRecyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(getActivity(),mRecyclerView,this));
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(RecyclerView.VERTICAL);
-        llm.setReverseLayout(false);
         mRecyclerView.setLayoutManager(llm);
 
         mList = ((MainActivity)getActivity()).getSetQuadrinhoList(20);

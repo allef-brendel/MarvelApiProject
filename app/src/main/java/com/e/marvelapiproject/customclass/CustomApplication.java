@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.e.marvelapiproject.di.component.DaggerNetworkComponent;
 import com.e.marvelapiproject.di.component.NetworkComponent;
+import com.e.marvelapiproject.di.module.AppModule;
 import com.e.marvelapiproject.di.module.RetrofitModule;
 
 public class CustomApplication extends Application {
@@ -14,7 +15,8 @@ public class CustomApplication extends Application {
     public void onCreate() {
         super.onCreate();
         networkComponent = DaggerNetworkComponent.builder()
-                .retrofitModule(new RetrofitModule(Helper.URL))
+                .appModule(new AppModule(this))
+                .retrofitModule(new RetrofitModule("http://gateway.marvel.com/v1/public/"))
                 .build();
     }
 

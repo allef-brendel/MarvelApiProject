@@ -17,7 +17,7 @@ public class Gravador {
     //Grava os arquivos na pasta File
     public void gravarArquivo(String nomeArquivo, String texto){
         try {
-            OutputStreamWriter buff=new OutputStreamWriter(new FileOutputStream("/data/data/com.example.macaxeiratec/files/"+nomeArquivo),"UTF-8");
+            OutputStreamWriter buff=new OutputStreamWriter(new FileOutputStream("/data/data/com.e.marvelapiproject/files/"+nomeArquivo),"UTF-8");
             buff.write(texto);
             buff.close();
         } catch (FileNotFoundException e) {
@@ -34,7 +34,7 @@ public class Gravador {
         String s="";
         BufferedReader buff;
         try {
-            buff= new BufferedReader(new InputStreamReader(new FileInputStream("/data/data/com.example.macaxeiratec/files/"+nomeArquivo),"UTF-8"));
+            buff= new BufferedReader(new InputStreamReader(new FileInputStream("/data/data/com.e.marvelapiproject/files/"+nomeArquivo),"UTF-8"));
             String linha=buff.readLine();
             while(linha!=null){
                 s+=linha;

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.e.marvelapiproject.MainActivity;
 import com.e.marvelapiproject.R;
 import com.e.marvelapiproject.customclass.CustomApplication;
+import com.e.marvelapiproject.di.module.RetrofitModule;
 import com.e.marvelapiproject.objects.QuadrinhosResposta;
 import com.e.marvelapiproject.objects.Result;
 
@@ -23,7 +24,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CarregarDadosJSON extends AppCompatActivity {
 
@@ -49,7 +49,7 @@ public class CarregarDadosJSON extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carregar_dados_json);
 
-        ((CustomApplication)getApplication()).getNetworkComponent().inject(CarregarDadosJSON.this);
+
 
         listaDados = new String[20][6];
 
@@ -63,6 +63,8 @@ public class CarregarDadosJSON extends AppCompatActivity {
 
     // Metodo para obter os dados da API
     private void obterDados() {
+
+        ((CustomApplication)getApplication()).getNetworkComponent().inject(this);
 
         String ts = Long.toString(System.currentTimeMillis() / 1000);
         String hash = md5(ts + PRIVATE_KEY + PUBLIC_KEY);

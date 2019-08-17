@@ -65,19 +65,20 @@ public class MainActivity extends AppCompatActivity {
             String[] descricao = new String[listaDados.length];
             String[] quantPaginas = new String[listaDados.length];
             String[] precos = new String[listaDados.length];
-            int[] fotos = new int[]{R.drawable.quadrinho1, R.drawable.quadrinho2, R.drawable.quadrinho3, R.drawable.quadrinho4, R.drawable.quadrinho5, R.drawable.quadrinho6, R.drawable.quadrinho7, R.drawable.quadrinho8, R.drawable.quadrinho9, R.drawable.quadrinho10, R.drawable.quadrinho11, R.drawable.quadrinho12, R.drawable.quadrinho13, R.drawable.quadrinho14, R.drawable.quadrinho15, R.drawable.quadrinho16, R.drawable.quadrinho17, R.drawable.quadrinho18, R.drawable.quadrinho19, R.drawable.quadrinho20};
+            String[] url = new String[listaDados.length];
 
             for (int i = 0; i < listaDados.length; i++) {
                 title[i] = listaDados[i][0];
                 descricao[i] = listaDados[i][1];
                 precos[i] = listaDados[i][2];
                 quantPaginas[i] = listaDados[i][4];
+                url[i] = listaDados[i][5];
 
             }
             List<Quadrinho> listAux = new ArrayList<>();
 
             for (int i = 0; i < quant; i++) {
-                Quadrinho quadrinho = new Quadrinho(listaDados[i][0], listaDados[i][2], fotos[i]);
+                Quadrinho quadrinho = new Quadrinho(listaDados[i][0], listaDados[i][2], listaDados[i][5]);
                 listAux.add(quadrinho);
             }
             return listAux;
