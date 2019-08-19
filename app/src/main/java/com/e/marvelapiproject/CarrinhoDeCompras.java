@@ -20,39 +20,39 @@ public class CarrinhoDeCompras extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrinho_de_compras);
 
-        // Toolbar
+        toolbar();
+
+        precoQuadrinho = findViewById(R.id.textPrecoProduto);
+        titulo = findViewById(R.id.textCarrinhoTitulo);
+        quantQuadrinhos = findViewById(R.id.textQuantProduto);
+
+        //StringExtra
+        Intent it = getIntent();
+        String tituloCarrinho = it.getStringExtra("titulo");
+        String precoCarrinho = it.getStringExtra("preco");
+        String quantidadeQuadrinhos = it.getStringExtra("quant");
+
+        titulo.setText("Título: " + tituloCarrinho);
+        precoQuadrinho.setText(precoCarrinho);
+        quantQuadrinhos.setText(quantidadeQuadrinhos);
+    }
+
+    // Toolbar
+    public void toolbar(){
         mToolbar = findViewById(R.id.tb_main);
         mToolbar.setTitle(" Marvel Comics");
         mToolbar.setSubtitle(" Descrição Quadrinho");
         mToolbar.setLogo(R.drawable.marvel_simbolo);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        precoQuadrinho = findViewById(R.id.textPrecoProduto);
-        titulo = findViewById(R.id.textCarrinhoTitulo);
-        quantQuadrinhos = findViewById(R.id.textQuantProduto);
-
-        //StringExtra para pega os dados da activity de detalhes do quadrinho
-        Intent it = getIntent();
-        String tituloCarrinho = it.getStringExtra("titulo");
-        String precoCarrinho = it.getStringExtra("preco");
-        String quantidadeQuadrinhos = it.getStringExtra("quant");
-
-        // SetText dos itens do carrinhgo
-        titulo.setText("Título: " + tituloCarrinho);
-        precoQuadrinho.setText(precoCarrinho);
-        quantQuadrinhos.setText(quantidadeQuadrinhos);
     }
 
-    // Inflate das opçoes da toolbar de carrinho de compras
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_second, menu);
         return true;
     }
 
-    // Botao da Seta de voltar da Toolbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

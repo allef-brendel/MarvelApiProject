@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         criarPastaFile();
         gravador = new Gravador();
 
+        toolbar();
+
         listaDados = recuperarLista();
         criarPastaFile();
 
@@ -41,22 +43,28 @@ public class MainActivity extends AppCompatActivity {
         gravador.salvarInfoQuadrinhos(listaDados);
         gravador.salvarQuantItens(listaDados.length);
 
-        // Toolbar da tela de listagem
-        mToolbar = findViewById(R.id.tb_main);
-        mToolbar.setTitle("    Marvel Comics");
-        mToolbar.setSubtitle("    Quadrinhos Marvel");
-        mToolbar.setLogo(R.drawable.marvel_simbolo);
-        setSupportActionBar(mToolbar);
-
-        //  Fragment
-        QuadrinhoFragments frag = (QuadrinhoFragments) getSupportFragmentManager().findFragmentByTag("person_frag");
-        if (frag == null) {
-            frag = new QuadrinhoFragments();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.rl_fragment_container, frag, "person_frag");
-            ft.commit();
-        }
+        fragment();
     }
+
+        // Toolbar da tela de listagem
+        public void toolbar(){
+            mToolbar = findViewById(R.id.tb_main);
+            mToolbar.setTitle("    Marvel Comics");
+            mToolbar.setSubtitle("    Quadrinhos Marvel");
+            mToolbar.setLogo(R.drawable.marvel_simbolo);
+            setSupportActionBar(mToolbar);
+        }
+
+    //  Fragment
+        public void fragment(){
+            QuadrinhoFragments frag = (QuadrinhoFragments) getSupportFragmentManager().findFragmentByTag("person_frag");
+            if (frag == null) {
+                frag = new QuadrinhoFragments();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.rl_fragment_container, frag, "person_frag");
+                ft.commit();
+            }
+        }
 
         // Metodo que manda os dados para o Adapter
         public List<Quadrinho> getSetQuadrinhoList ( int quant){

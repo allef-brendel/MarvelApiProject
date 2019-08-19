@@ -45,7 +45,7 @@ import java.util.List;
                 holder.tv_clan.setText(mList.get(position).getQuantPaginas());
                 holder.tv_preco.setText(mList.get(position).getPrecos());
 
-                Glide.with(context).load(mList.get(position).getUrl() + "/portrait_medium.jpg").into(holder.iv_personagem);
+                Glide.with(context).load(mList.get(position).getUrl() + "/portrait_uncanny.jpg").into(holder.iv_personagem);
             }
 
         @Override

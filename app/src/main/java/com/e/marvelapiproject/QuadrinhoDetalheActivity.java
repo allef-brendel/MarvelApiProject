@@ -39,26 +39,13 @@ public class QuadrinhoDetalheActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.activity_quadrinho_detalhe);
 
         gravador = new Gravador();
         lista = gravador.lerQuadrinhos();
 
-        // Toolbar da tela de Detalhe dos quadrinhos
-        mToolbar = findViewById(R.id.tb_main);
-        mToolbar.setTitle(" Marvel Comics");
-        mToolbar.setSubtitle(" Descrição Quadrinho");
-        mToolbar.setLogo(R.drawable.marvel_simbolo);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        imageView = findViewById(R.id.imageVIewQuadrinho);
-        textView = findViewById(R.id.textViewDescricao);
-        textView2 = findViewById(R.id.precoSecond);
-        textView3 = findViewById(R.id.quantPag);
-        textView4 = findViewById(R.id.textTitulo);
-        editText = findViewById(R.id.editTextQuantidade);
-        button2 = findViewById(R.id.botaoCarrinho);
+        toolbar();
+        idConfiguration();
 
         Intent it = getIntent();
         int position = it.getIntExtra("position", -1);
@@ -86,8 +73,27 @@ public class QuadrinhoDetalheActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
+
+        // Toolbar da tela de Detalhe dos quadrinhos
+        public void toolbar(){
+            mToolbar = findViewById(R.id.tb_main);
+            mToolbar.setTitle(" Marvel Comics");
+            mToolbar.setSubtitle(" Descrição Quadrinho");
+            mToolbar.setLogo(R.drawable.marvel_simbolo);
+            setSupportActionBar(mToolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        public void idConfiguration(){
+            imageView = findViewById(R.id.imageVIewQuadrinho);
+            textView = findViewById(R.id.textViewDescricao);
+            textView2 = findViewById(R.id.precoSecond);
+            textView3 = findViewById(R.id.quantPag);
+            textView4 = findViewById(R.id.textTitulo);
+            editText = findViewById(R.id.editTextQuantidade);
+            button2 = findViewById(R.id.botaoCarrinho);
+        }
 
         // inflate dos itens da toolbar
         @Override

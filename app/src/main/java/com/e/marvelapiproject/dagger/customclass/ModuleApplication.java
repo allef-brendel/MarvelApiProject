@@ -1,13 +1,13 @@
-package com.e.marvelapiproject.customclass;
+package com.e.marvelapiproject.dagger.customclass;
 
 import android.app.Application;
 
-import com.e.marvelapiproject.di.component.DaggerNetworkComponent;
-import com.e.marvelapiproject.di.component.NetworkComponent;
-import com.e.marvelapiproject.di.module.AppModule;
-import com.e.marvelapiproject.di.module.RetrofitModule;
+import com.e.marvelapiproject.dagger.component.DaggerNetworkComponent;
+import com.e.marvelapiproject.dagger.component.NetworkComponent;
+import com.e.marvelapiproject.dagger.module.AppModule;
+import com.e.marvelapiproject.dagger.module.RetrofitModule;
 
-public class CustomApplication extends Application {
+public class ModuleApplication extends Application {
 
     private NetworkComponent networkComponent;
 

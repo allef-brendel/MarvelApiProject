@@ -9,8 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.e.marvelapiproject.MainActivity;
 import com.e.marvelapiproject.R;
-import com.e.marvelapiproject.customclass.CustomApplication;
-import com.e.marvelapiproject.di.module.RetrofitModule;
+import com.e.marvelapiproject.dagger.customclass.ModuleApplication;
 import com.e.marvelapiproject.objects.QuadrinhosResposta;
 import com.e.marvelapiproject.objects.Result;
 
@@ -30,10 +29,6 @@ public class CarregarDadosJSON extends AppCompatActivity {
     public static final String PUBLIC_KEY = "d4d1b4b87a003b45f81347d210a68f3c";
     public static final String PRIVATE_KEY = "2f75c7c06252fab7b2df86dd19974e075fcd5bd0";
 
-    public static final String TIMESTAMP = "ts";
-    public static final String API_KEY = "apikey";
-    public static final String HASH = "hash";
-
     private static final String TAG = "COMICS";
     private APIInterface service;
 
@@ -49,8 +44,6 @@ public class CarregarDadosJSON extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carregar_dados_json);
 
-
-
         listaDados = new String[20][6];
 
         pdia = new ProgressDialog(CarregarDadosJSON.this);
@@ -64,7 +57,7 @@ public class CarregarDadosJSON extends AppCompatActivity {
     // Metodo para obter os dados da API
     private void obterDados() {
 
-        ((CustomApplication)getApplication()).getNetworkComponent().inject(this);
+        ((ModuleApplication)getApplication()).getNetworkComponent().inject(this);
 
         String ts = Long.toString(System.currentTimeMillis() / 1000);
         String hash = md5(ts + PRIVATE_KEY + PUBLIC_KEY);
@@ -124,15 +117,6 @@ public class CarregarDadosJSON extends AppCompatActivity {
             a.putExtra("thumbnails"+x, listaDados[x][5]);
         }
         startActivity(a);
-    }
-
-
-    // Metodo feito para alinhar as keys nos lugares certos
-    public static String genKeyUser() {
-        String ts = Long.toString(System.currentTimeMillis() / 1000);
-        String hash = md5(ts + PRIVATE_KEY + PUBLIC_KEY);
-        return TIMESTAMP + "=" + ts + "&" + API_KEY + "=" + PUBLIC_KEY + "&" +
-                HASH + "=" + hash;
     }
 
     // Metodo feita para converter as keys da api para md5

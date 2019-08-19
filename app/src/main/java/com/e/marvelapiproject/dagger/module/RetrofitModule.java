@@ -1,4 +1,4 @@
-package com.e.marvelapiproject.di.module;
+package com.e.marvelapiproject.dagger.module;
 
 import android.app.Application;
 

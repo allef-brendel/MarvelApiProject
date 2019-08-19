@@ -1,7 +1,7 @@
-package com.e.marvelapiproject.di.component;
+package com.e.marvelapiproject.dagger.component;
 
-import com.e.marvelapiproject.di.module.AppModule;
-import com.e.marvelapiproject.di.module.RetrofitModule;
+import com.e.marvelapiproject.dagger.module.AppModule;
+import com.e.marvelapiproject.dagger.module.RetrofitModule;
 import com.e.marvelapiproject.retrofit.CarregarDadosJSON;
 
 import javax.inject.Singleton;

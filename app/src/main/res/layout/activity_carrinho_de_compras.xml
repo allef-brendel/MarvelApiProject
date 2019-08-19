@@ -13,7 +13,6 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
-        android:layout_marginTop="@dimen/padding_top_toolbar"
         android:layout_alignParentLeft="true"
         app:titleTextColor="@color/colorPrimarytext"
         app:subtitleTextColor="@color/colorSecondText"

@@ -12,7 +12,6 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
-        android:layout_marginTop="@dimen/padding_top_toolbar"
         android:layout_alignParentLeft="true"
         app:titleTextColor="@color/colorPrimarytext"
         app:subtitleTextColor="@color/colorSecondText"
@@ -81,19 +80,19 @@
 
         <EditText
             android:id="@+id/editTextQuantidade"
-            android:textColorHint="@color/md_white_1000"
-            android:hint="Digite a quantidade"
             android:layout_width="wrap_content"
-            android:inputType="numberDecimal"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:layout_height="46dp"
             android:layout_below="@+id/textViewDescricao"
-            android:textColor="@color/md_white_1000"
-            android:layout_marginBottom="20dp"
-            android:padding="5dp"
-            android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
-            android:textSize="14sp"/>
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/colorPrimary"
+            android:hint="DIGITE A QUANTIDADE"
+            android:inputType="numberDecimal"
+            android:padding="5dp"
+            android:textColor="@color/md_white_1000"
+            android:textColorHint="@color/md_white_1000"
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/botaoCarrinho"
