@@ -2,6 +2,7 @@ package com.e.marvelapiproject;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -13,11 +14,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.e.marvelapiproject.db.Database;
 import com.e.marvelapiproject.contentprovider.Authority;
 import com.e.marvelapiproject.fragment.QuadrinhoFragments;
-import com.e.marvelapiproject.objects.Quadrinho;
+import com.e.marvelapiproject.pojo.Quadrinho;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +26,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        criarPastaFile();
-        
+
         toolbar();
-        criarPastaFile();
         fragment();
     }
 
@@ -72,24 +68,12 @@ public class MainActivity extends AppCompatActivity {
 
                 listAux.add(new Quadrinho(title, descripition, price, id, pagcount, url));
             }
+        }else{
+            Log.i("TAG>>>", "Else");
         }
         cursor.close();
         return listAux;
     }
-
-        // Cria o diretorio file
-        public void criarPastaFile () {
-            try {
-                FileOutputStream file = openFileOutput("teste.txt", MODE_PRIVATE);
-                String s = "asd";
-                file.write(s.getBytes());
-                file.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
     @Override
     public boolean onCreateOptionsMenu (Menu menu){

@@ -19,11 +19,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.e.marvelapiproject.contentprovider.Authority;
 import com.e.marvelapiproject.db.Database;
-import com.e.marvelapiproject.gravador.Gravador;
-import com.e.marvelapiproject.objects.Quadrinho;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class QuadrinhoDetalheActivity extends AppCompatActivity {
@@ -37,17 +32,10 @@ public class QuadrinhoDetalheActivity extends AppCompatActivity {
     private Button button2;
     private EditText editText;
 
-    Gravador gravador;
-
-    String[][] lista;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quadrinho_detalhe);
-
-        gravador = new Gravador();
-        lista = gravador.lerQuadrinhos();
 
         toolbar();
         idConfiguration();
@@ -57,21 +45,19 @@ public class QuadrinhoDetalheActivity extends AppCompatActivity {
         public void setTextQuery(){
             Intent it = getIntent();
             int position = it.getIntExtra("position", -1);
+            int result = (position + 1);
 
-            String[] colunas = new String[]{Database.TITLE, Database.DESCRIPITION, Database.PRICE, Database.ID, Database.PAGECOUNT, Database.URL};
+            String[] colunas = new String[]{Database.TITLE, Database.DESCRIPITION, Database.PRICE, Database.PAGECOUNT, Database.URL};
 
-            Uri uri = Uri.parse(Authority.AUTHORITY + position);
+            Uri uri = Uri.parse(Authority.URL + result);
 
             Cursor cursor = getContentResolver().query(uri , colunas, null, null, null);
 
-                    final String title = cursor.getString(cursor.getColumnIndex(Database.TITLE));
-                    String descripition = cursor.getString(cursor.getColumnIndex(Database.DESCRIPITION));
-                    final String price = cursor.getString(cursor.getColumnIndex(Database.PRICE));
-                    String pagcount = cursor.getString(cursor.getColumnIndex(Database.PAGECOUNT));
-                    String url = cursor.getString(cursor.getColumnIndex(Database.URL));
-
-
-            cursor.close();
+            final String title = cursor.getString(cursor.getColumnIndex(Database.TITLE));
+            String descripition = cursor.getString(cursor.getColumnIndex(Database.DESCRIPITION));
+            final String price = cursor.getString(cursor.getColumnIndex(Database.PRICE));
+            String pagcount = cursor.getString(cursor.getColumnIndex(Database.PAGECOUNT));
+            String url = cursor.getString(cursor.getColumnIndex(Database.URL));
 
             Glide.with(this).load(url + "/portrait_medium.jpg").into(imageView);
 
@@ -91,6 +77,7 @@ public class QuadrinhoDetalheActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+            cursor.close();
         }
 
         // Toolbar da tela de Detalhe dos quadrinhos

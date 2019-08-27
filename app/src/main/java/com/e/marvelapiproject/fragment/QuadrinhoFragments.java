@@ -25,7 +25,7 @@ import com.e.marvelapiproject.QuadrinhoDetalheActivity;
 import com.e.marvelapiproject.R;
 import com.e.marvelapiproject.adapter.QuadrinhoAdapter;
 import com.e.marvelapiproject.interfaces.RecycleViewOnClickListinerHack;
-import com.e.marvelapiproject.objects.Quadrinho;
+import com.e.marvelapiproject.pojo.Quadrinho;
 
 import java.util.List;
 

@@ -2,17 +2,20 @@ package com.e.marvelapiproject.retrofit;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.e.marvelapiproject.MainActivity;
 import com.e.marvelapiproject.R;
-import com.e.marvelapiproject.db.Database;
 import com.e.marvelapiproject.contentprovider.Authority;
+import com.e.marvelapiproject.db.Database;
 import com.e.marvelapiproject.dagger.customclass.ModuleApplication;
-import com.e.marvelapiproject.objects.QuadrinhosResposta;
-import com.e.marvelapiproject.objects.Result;
+import com.e.marvelapiproject.pojo.QuadrinhosResposta;
+import com.e.marvelapiproject.pojo.Result;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -80,13 +83,6 @@ public class CarregarDadosJSON extends AppCompatActivity {
                     String pageCount = results.get(i).getPageCount();
                     String url = results.get(i).getThumbnail().getPath();
 
-                    values.put(Database.TITLE, title);
-                    values.put(Database.DESCRIPITION, description);
-                    values.put(Database.PRICE, price);
-                    values.put(Database.ID, id);
-                    values.put(Database.PAGECOUNT, pageCount);
-                    values.put(Database.URL, url);
-
                     Log.d(TAG, "onResponse: \n" +
                             "Titulo: " + results.get(i).getTitle() + "\n" +
                             "Descrição: " + results.get(i).getDescription() + "\n" +
@@ -95,8 +91,18 @@ public class CarregarDadosJSON extends AppCompatActivity {
                             "ID: " + results.get(i).getId() + "\n" +
                             "URL Foto: " + results.get(i).getThumbnail().getPath() + "\n" +
                             "-------------------------------------------------------------------------\n\n");
+
+                    values.put(Database.TITLE, title);
+                    values.put(Database.DESCRIPITION, description);
+                    values.put(Database.PRICE, price);
+                    values.put(Database.ID, id);
+                    values.put(Database.PAGECOUNT, pageCount);
+                    values.put(Database.URL, url);
+
+                    getContentResolver().insert(Authority.CONTENT_URI, values);
                 }
                 pdia.cancel();
+                passarIntent();
             }
 
             @Override
@@ -104,6 +110,12 @@ public class CarregarDadosJSON extends AppCompatActivity {
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    public void passarIntent(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     // Metodo feita para converter as keys da api para md5

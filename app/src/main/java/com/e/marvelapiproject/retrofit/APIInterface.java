@@ -1,6 +1,6 @@
 package com.e.marvelapiproject.retrofit;
 
-import com.e.marvelapiproject.objects.QuadrinhosResposta;
+import com.e.marvelapiproject.pojo.QuadrinhosResposta;
 
 import java.util.List;
 

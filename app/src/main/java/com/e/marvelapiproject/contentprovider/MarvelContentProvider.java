@@ -39,13 +39,13 @@ public class MarvelContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(Database.PESSOAS_TABLE_NAME);
+        qb.setTables(Database.QUADRINHO_TABLE_NAME);
 
         switch (uriMatcher.match(uri)){
             case Authority.QUADRINHO:
                 break;
             case Authority.QUADRINHO_ID:
-                qb.appendWhere( Database._ID + "=" + uri.getPathSegments().get(1));
+                qb.appendWhere( Database._ID + "=" + uri.getLastPathSegment());
                 break;
         }
         Cursor cursor = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
@@ -60,7 +60,7 @@ public class MarvelContentProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
-        long rowID = db.insert(	Database.PESSOAS_TABLE_NAME, "", contentValues);
+        long rowID = db.insert(	Database.QUADRINHO_TABLE_NAME, null, contentValues);
 
         if (rowID > 0) {
             Uri _uri = ContentUris.withAppendedId(Authority.CONTENT_URI, rowID);
@@ -76,11 +76,11 @@ public class MarvelContentProvider extends ContentProvider {
 
         switch (uriMatcher.match(uri)){
             case Authority.QUADRINHO:
-                db.delete(Database.PESSOAS_TABLE_NAME, null, null);
+                db.delete(Database.QUADRINHO_TABLE_NAME, null, null);
                 break;
             case Authority.QUADRINHO_ID:
                 String id = uri.getLastPathSegment();
-                linha = db.delete(Database.PESSOAS_TABLE_NAME, Database._ID + "=" + id, strings);
+                linha = db.delete(Database.QUADRINHO_TABLE_NAME, Database._ID + "=" + id, strings);
                 break;
         }
         getContext().getContentResolver().notifyChange(uri, null);
@@ -93,11 +93,11 @@ public class MarvelContentProvider extends ContentProvider {
 
         switch (uriMatcher.match(uri)){
             case Authority.QUADRINHO:
-                linha = db.update(Database.PESSOAS_TABLE_NAME, contentValues, null, null);
+                linha = db.update(Database.QUADRINHO_TABLE_NAME, contentValues, null, null);
                 break;
             case Authority.QUADRINHO_ID:
                 String id = uri.getLastPathSegment();
-                linha = db.update(Database.PESSOAS_TABLE_NAME, contentValues, Database._ID + "=" + id ,null);
+                linha = db.update(Database.QUADRINHO_TABLE_NAME, contentValues, Database._ID + "=" + id ,null);
                 break;
         }
         getContext().getContentResolver().notifyChange(uri, null);

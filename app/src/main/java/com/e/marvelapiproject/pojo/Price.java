@@ -1,4 +1,4 @@
-package com.e.marvelapiproject.objects;
+package com.e.marvelapiproject.pojo;
 
 public class Price {
 

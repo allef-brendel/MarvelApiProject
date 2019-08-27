@@ -1,4 +1,4 @@
-package com.e.marvelapiproject.objects;
+package com.e.marvelapiproject.pojo;
 
 import com.google.gson.annotations.SerializedName;
 
