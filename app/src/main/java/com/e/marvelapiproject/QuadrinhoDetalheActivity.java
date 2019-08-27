@@ -2,6 +2,8 @@ package com.e.marvelapiproject;
 
 import android.content.Intent;
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,17 +17,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.e.marvelapiproject.contentprovider.Authority;
+import com.e.marvelapiproject.db.Database;
 import com.e.marvelapiproject.gravador.Gravador;
+import com.e.marvelapiproject.objects.Quadrinho;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class QuadrinhoDetalheActivity extends AppCompatActivity {
-    private Toolbar mToolbar;
 
     private ImageView imageView;
-    private TextView textView;
-    private TextView textView2;
-    private TextView textView3;
-    private TextView textView4;
+    private TextView tvdescription;
+    private TextView tvprice;
+    private TextView tvpagcount;
+    private TextView tvtitle;
 
     private Button button2;
     private EditText editText;
@@ -33,8 +40,6 @@ public class QuadrinhoDetalheActivity extends AppCompatActivity {
     Gravador gravador;
 
     String[][] lista;
-
-    Glide glide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,38 +51,51 @@ public class QuadrinhoDetalheActivity extends AppCompatActivity {
 
         toolbar();
         idConfiguration();
-
-        Intent it = getIntent();
-        int position = it.getIntExtra("position", -1);
-
-        // Usando o Glide para mostrar as imagens na tela de detalhe do quadrinho, usando gravador para recuperar as URL's pegas do JSON
-        glide.with(this).load(lista[position][5] + "/portrait_medium.jpg").into(imageView);
-
-        textView4.setText(lista[position][0]);
-        textView.setText(lista[position][1]);
-        textView2.setText("R$ " + lista[position][2]);
-        textView3.setText("Pag: " + lista[position][4]);
-
-        // Botão de Adicionar ao carrinho
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = getIntent();
-                int position = it.getIntExtra("position", -1);
-
-                Intent intent = new Intent(QuadrinhoDetalheActivity.this, CarrinhoDeCompras.class);
-                intent.putExtra("titulo", lista[position][0]);
-                intent.putExtra("preco", lista[position][2]);
-
-                intent.putExtra("quant", editText.getText().toString());
-                startActivity(intent);
-            }
-        });
+        setTextQuery();
     }
+
+        public void setTextQuery(){
+            Intent it = getIntent();
+            int position = it.getIntExtra("position", -1);
+
+            String[] colunas = new String[]{Database.TITLE, Database.DESCRIPITION, Database.PRICE, Database.ID, Database.PAGECOUNT, Database.URL};
+
+            Uri uri = Uri.parse(Authority.AUTHORITY + position);
+
+            Cursor cursor = getContentResolver().query(uri , colunas, null, null, null);
+
+                    final String title = cursor.getString(cursor.getColumnIndex(Database.TITLE));
+                    String descripition = cursor.getString(cursor.getColumnIndex(Database.DESCRIPITION));
+                    final String price = cursor.getString(cursor.getColumnIndex(Database.PRICE));
+                    String pagcount = cursor.getString(cursor.getColumnIndex(Database.PAGECOUNT));
+                    String url = cursor.getString(cursor.getColumnIndex(Database.URL));
+
+
+            cursor.close();
+
+            Glide.with(this).load(url + "/portrait_medium.jpg").into(imageView);
+
+            tvtitle.setText(title);
+            tvdescription.setText(descripition);
+            tvprice.setText("R$ " + price);
+            tvpagcount.setText("Pag: " + pagcount);
+
+            button2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(QuadrinhoDetalheActivity.this, CarrinhoDeCompras.class);
+                    intent.putExtra("titulo", title);
+                    intent.putExtra("preco", price);
+                    intent.putExtra("quant", editText.getText().toString());
+                    startActivity(intent);
+                }
+            });
+        }
 
         // Toolbar da tela de Detalhe dos quadrinhos
         public void toolbar(){
-            mToolbar = findViewById(R.id.tb_main);
+            Toolbar mToolbar = findViewById(R.id.tb_main);
             mToolbar.setTitle(" Marvel Comics");
             mToolbar.setSubtitle(" Descrição Quadrinho");
             mToolbar.setLogo(R.drawable.marvel_simbolo);
@@ -87,10 +105,10 @@ public class QuadrinhoDetalheActivity extends AppCompatActivity {
 
         public void idConfiguration(){
             imageView = findViewById(R.id.imageVIewQuadrinho);
-            textView = findViewById(R.id.textViewDescricao);
-            textView2 = findViewById(R.id.precoSecond);
-            textView3 = findViewById(R.id.quantPag);
-            textView4 = findViewById(R.id.textTitulo);
+            tvdescription = findViewById(R.id.textViewDescricao);
+            tvprice = findViewById(R.id.precoSecond);
+            tvpagcount = findViewById(R.id.quantPag);
+            tvtitle = findViewById(R.id.textTitulo);
             editText = findViewById(R.id.editTextQuantidade);
             button2 = findViewById(R.id.botaoCarrinho);
         }

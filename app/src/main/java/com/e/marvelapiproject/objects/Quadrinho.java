@@ -7,13 +7,29 @@ public class Quadrinho {
     public String quantPaginas;
     public String descricao;
     public String url;
+    public String id;
 
-    public int foto;
+//    public Quadrinho(String titulo, String precos, String url) {
+//        this.titulo = titulo;
+//        this.precos = precos;
+//        this.url = url;
+//    }
 
-    public Quadrinho(String titulo, String precos, String url) {
-        this.titulo = titulo;
-        this.precos = precos;
+    public Quadrinho(String title, String description, String price, String id, String pagCount, String url) {
+        this.titulo = title;
+        this.descricao = description;
+        this.precos = price;
+        this.quantPaginas = pagCount;
+        this.id = id;
         this.url = url;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUrl() {
@@ -50,14 +66,6 @@ public class Quadrinho {
 
     public void setQuantPaginas(String clan) {
         this.quantPaginas = quantPaginas;
-    }
-
-    public int getFoto() {
-        return foto;
-    }
-
-    public void setFoto(int foto) {
-        this.foto = foto;
     }
 
     public String getDescricao() {

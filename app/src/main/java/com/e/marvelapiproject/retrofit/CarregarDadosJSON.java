@@ -1,14 +1,15 @@
 package com.e.marvelapiproject.retrofit;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.e.marvelapiproject.MainActivity;
 import com.e.marvelapiproject.R;
+import com.e.marvelapiproject.db.Database;
+import com.e.marvelapiproject.contentprovider.Authority;
 import com.e.marvelapiproject.dagger.customclass.ModuleApplication;
 import com.e.marvelapiproject.objects.QuadrinhosResposta;
 import com.e.marvelapiproject.objects.Result;
@@ -30,11 +31,8 @@ public class CarregarDadosJSON extends AppCompatActivity {
     public static final String PRIVATE_KEY = "2f75c7c06252fab7b2df86dd19974e075fcd5bd0";
 
     private static final String TAG = "COMICS";
-    private APIInterface service;
 
     private ProgressDialog pdia;
-
-    private String[][] listaDados;
 
     @Inject
     Retrofit retrofit;
@@ -44,14 +42,11 @@ public class CarregarDadosJSON extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carregar_dados_json);
 
-        listaDados = new String[20][6];
-
         pdia = new ProgressDialog(CarregarDadosJSON.this);
         pdia.setMessage("Carregando...");
         pdia.show();
 
         obterDados();
-
     }
 
     // Metodo para obter os dados da API
@@ -62,7 +57,7 @@ public class CarregarDadosJSON extends AppCompatActivity {
         String ts = Long.toString(System.currentTimeMillis() / 1000);
         String hash = md5(ts + PRIVATE_KEY + PUBLIC_KEY);
 
-        service = retrofit.create(APIInterface.class);
+        APIInterface service = retrofit.create(APIInterface.class);
         Call<QuadrinhosResposta> call = service.getQuadrinhos(PUBLIC_KEY, ts, hash);
 
         call.enqueue(new Callback<QuadrinhosResposta>() {
@@ -75,14 +70,22 @@ public class CarregarDadosJSON extends AppCompatActivity {
 
                 // Chamada para pegar os dados do JSON
                 ArrayList<Result> results = response.body().getData().getResults();
-                for( int i = 0; i<results.size(); i++) {
+                ContentValues values = new ContentValues();
 
-                    listaDados[i][0] = results.get(i).getTitle();
-                    listaDados[i][1] = results.get(i).getDescription();
-                    listaDados[i][2] = results.get(i).getPrices().get(0).getPrice();
-                    listaDados[i][3] = results.get(i).getId();
-                    listaDados[i][4] = results.get(i).getPageCount();
-                    listaDados[i][5] = results.get(i).getThumbnail().getPath();
+                for( int i = 0; i<results.size(); i++) {
+                    String title = results.get(i).getTitle();
+                    String description = results.get(i).getDescription();
+                    String price = results.get(i).getPrices().get(0).getPrice();
+                    String id = results.get(i).getId();
+                    String pageCount = results.get(i).getPageCount();
+                    String url = results.get(i).getThumbnail().getPath();
+
+                    values.put(Database.TITLE, title);
+                    values.put(Database.DESCRIPITION, description);
+                    values.put(Database.PRICE, price);
+                    values.put(Database.ID, id);
+                    values.put(Database.PAGECOUNT, pageCount);
+                    values.put(Database.URL, url);
 
                     Log.d(TAG, "onResponse: \n" +
                             "Titulo: " + results.get(i).getTitle() + "\n" +
@@ -94,7 +97,6 @@ public class CarregarDadosJSON extends AppCompatActivity {
                             "-------------------------------------------------------------------------\n\n");
                 }
                 pdia.cancel();
-                iniciarActivity();
             }
 
             @Override
@@ -102,21 +104,6 @@ public class CarregarDadosJSON extends AppCompatActivity {
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
-
-    }
-
-    // Metodo para salvar os dados carregados da API no putExtra
-    private void iniciarActivity() {
-        Intent a=new Intent(this, MainActivity.class);
-        for (int x=0;x<listaDados.length;x++) {
-            a.putExtra("title"+x,listaDados[x][0]);
-            a.putExtra("descrição"+x,listaDados[x][1]);
-            a.putExtra("preço"+x,listaDados[x][2]);
-            a.putExtra("id"+x,listaDados[x][3]);
-            a.putExtra("pag"+x,listaDados[x][4]);
-            a.putExtra("thumbnails"+x, listaDados[x][5]);
-        }
-        startActivity(a);
     }
 
     // Metodo feita para converter as keys da api para md5

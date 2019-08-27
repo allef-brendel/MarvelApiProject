@@ -1,5 +1,6 @@
 package com.e.marvelapiproject;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,8 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.e.marvelapiproject.db.Database;
+import com.e.marvelapiproject.contentprovider.Authority;
 import com.e.marvelapiproject.fragment.QuadrinhoFragments;
-import com.e.marvelapiproject.gravador.Gravador;
 import com.e.marvelapiproject.objects.Quadrinho;
 
 import java.io.FileNotFoundException;
@@ -22,33 +24,20 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Toolbar mToolbar;
-
-    private String[][] listaDados;
-    private Gravador gravador;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         criarPastaFile();
-        gravador = new Gravador();
-
+        
         toolbar();
-
-        listaDados = recuperarLista();
         criarPastaFile();
-
-        // Gravador para salvar informaçoes dos quadrinhos
-        gravador.salvarInfoQuadrinhos(listaDados);
-        gravador.salvarQuantItens(listaDados.length);
-
         fragment();
     }
 
         // Toolbar da tela de listagem
         public void toolbar(){
-            mToolbar = findViewById(R.id.tb_main);
+            Toolbar mToolbar = findViewById(R.id.tb_main);
             mToolbar.setTitle("    Marvel Comics");
             mToolbar.setSubtitle("    Quadrinhos Marvel");
             mToolbar.setLogo(R.drawable.marvel_simbolo);
@@ -66,60 +55,27 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        // Metodo que manda os dados para o Adapter
-        public List<Quadrinho> getSetQuadrinhoList ( int quant){
+    public List<Quadrinho> queryDadosContent (int quant ){
+        String[] colunas = new String[]{Database.TITLE, Database.DESCRIPITION, Database.PRICE, Database.ID, Database.PAGECOUNT, Database.URL};
 
-            String[] title = new String[listaDados.length];
-            String[] descricao = new String[listaDados.length];
-            String[] quantPaginas = new String[listaDados.length];
-            String[] precos = new String[listaDados.length];
-            String[] url = new String[listaDados.length];
+        List<Quadrinho> listAux = new ArrayList<>();
+        Cursor cursor = getContentResolver().query(Authority.CONTENT_URI, colunas, null, null, null);
 
-            for (int i = 0; i < listaDados.length; i++) {
-                title[i] = listaDados[i][0];
-                descricao[i] = listaDados[i][1];
-                precos[i] = listaDados[i][2];
-                quantPaginas[i] = listaDados[i][4];
-                url[i] = listaDados[i][5];
+        if (cursor.moveToFirst()){
+            while (cursor.moveToNext()){
+                String title = cursor.getString(cursor.getColumnIndex(Database.TITLE));
+                String descripition = cursor.getString(cursor.getColumnIndex(Database.DESCRIPITION));
+                String price = cursor.getString(cursor.getColumnIndex(Database.PRICE));
+                String id = cursor.getString(cursor.getColumnIndex(Database.ID));
+                String pagcount = cursor.getString(cursor.getColumnIndex(Database.PAGECOUNT));
+                String url = cursor.getString(cursor.getColumnIndex(Database.URL));
 
+                listAux.add(new Quadrinho(title, descripition, price, id, pagcount, url));
             }
-            List<Quadrinho> listAux = new ArrayList<>();
-
-            for (int i = 0; i < quant; i++) {
-                Quadrinho quadrinho = new Quadrinho(listaDados[i][0], listaDados[i][2], listaDados[i][5]);
-                listAux.add(quadrinho);
-            }
-            return listAux;
         }
-
-        @Override
-        public boolean onCreateOptionsMenu (Menu menu){
-            getMenuInflater().inflate(R.menu.menu_main, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onOptionsItemSelected (MenuItem item){
-
-            Toast.makeText(this, "Botão Configurações Precionado", Toast.LENGTH_SHORT).show();
-
-            return super.onOptionsItemSelected(item);
-        }
-
-        // Metodo para recuperar dados de CarregarDadosJSON
-        private String[][] recuperarLista () {
-            String[][] lista = new String[20][6];
-            for (int x = 0; x < lista.length; x++) {
-                lista[x][0] = getIntent().getStringExtra("title" + x);
-                lista[x][1] = getIntent().getStringExtra("descrição" + x);
-                lista[x][2] = getIntent().getStringExtra("preço" + x);
-                lista[x][3] = getIntent().getStringExtra("id" + x);
-                lista[x][4] = getIntent().getStringExtra("pag" + x);
-                lista[x][5] = getIntent().getStringExtra("thumbnails" + x);
-            }
-
-            return lista;
-        }
+        cursor.close();
+        return listAux;
+    }
 
         // Cria o diretorio file
         public void criarPastaFile () {
@@ -134,5 +90,20 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item){
+
+        Toast.makeText(this, "Botão Configurações Precionado", Toast.LENGTH_SHORT).show();
+
+        return super.onOptionsItemSelected(item);
+    }
+
     }
 

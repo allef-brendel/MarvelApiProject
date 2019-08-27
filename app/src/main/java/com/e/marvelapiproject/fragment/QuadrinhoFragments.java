@@ -4,6 +4,7 @@ package com.e.marvelapiproject.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -31,7 +32,7 @@ import java.util.List;
 
 public class QuadrinhoFragments extends Fragment implements RecycleViewOnClickListinerHack, View.OnClickListener {
 
-    public static final String TAG = "AQUI>> ";
+    public static final String TAG = "TAG: ";
 
     public RecyclerView mRecyclerView;
     public List<Quadrinho> mList;
@@ -50,7 +51,7 @@ public class QuadrinhoFragments extends Fragment implements RecycleViewOnClickLi
         llm.setOrientation(RecyclerView.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
 
-        mList = ((MainActivity)getActivity()).getSetQuadrinhoList(20);
+        mList = ((MainActivity)getActivity()).queryDadosContent(20);
         QuadrinhoAdapter adapter = new QuadrinhoAdapter(getActivity(),mList);
         mRecyclerView.setAdapter(adapter);
 
@@ -72,7 +73,7 @@ public class QuadrinhoFragments extends Fragment implements RecycleViewOnClickLi
 
         }
         catch (Exception  e){
-
+            Log.i(TAG, "Fail");
         }
     }
     // OnLongPress dos itens de listagem dos quadrinhos
@@ -86,13 +87,12 @@ public class QuadrinhoFragments extends Fragment implements RecycleViewOnClickLi
             Toast.makeText(getContext(), "onLongPressClickListiner", Toast.LENGTH_SHORT).show();
         }
         catch (Exception  e){
-
+            Log.i(TAG, "Fail");
         }
     }
 
     @Override
     public void onClick(View view) {
-
     }
 
 
