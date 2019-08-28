@@ -21,7 +21,6 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public List<Quadrinho> queryDadosContent(int quant) {
+    public List<Quadrinho> queryDadosContent() {
         String[] colunas = new String[]{Database.TITLE, Database.DESCRIPITION, Database.PRICE, Database.ID, Database.PAGECOUNT, Database.URL};
 
         List<Quadrinho> listAux = new ArrayList<>();

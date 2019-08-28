@@ -3,6 +3,8 @@ package com.e.marvelapiproject.retrofit;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +38,7 @@ public class CarregarDadosJSON extends AppCompatActivity {
     private static final String TAG = "COMICS";
 
     private ProgressDialog pdia;
+    private SQLiteDatabase db;
 
     @Inject
     Retrofit retrofit;
@@ -49,16 +52,34 @@ public class CarregarDadosJSON extends AppCompatActivity {
         pdia.setMessage("Carregando...");
         pdia.show();
 
-        obterDados();
+        verificarBDVazio();
+    }
+
+    private void verificarBDVazio() {
+        Database bd = new Database(CarregarDadosJSON.this);
+        db = bd.getWritableDatabase();
+
+        String select = "SELECT count(*) FROM " + Database.QUADRINHO_TABLE_NAME;
+        Cursor cursor = db.rawQuery(select, null);
+
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+
+        if(count>0){
+            pdia.cancel();
+            passarIntent();
+        }else {
+            obterDados();
+        }
     }
 
     // Metodo para obter os dados da API
-    private void obterDados() {
-
-        ((ModuleApplication)getApplication()).getNetworkComponent().inject(this);
-
         String ts = Long.toString(System.currentTimeMillis() / 1000);
-        String hash = md5(ts + PRIVATE_KEY + PUBLIC_KEY);
+        private void obterDados() {
+
+            ((ModuleApplication)getApplication()).getNetworkComponent().inject(this);
+
+            String hash = md5(ts + PRIVATE_KEY + PUBLIC_KEY);
 
         APIInterface service = retrofit.create(APIInterface.class);
         Call<QuadrinhosResposta> call = service.getQuadrinhos(PUBLIC_KEY, ts, hash);

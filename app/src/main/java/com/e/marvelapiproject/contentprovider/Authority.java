@@ -7,8 +7,6 @@ public class Authority {
     public static final String AUTHORITY = "com.e.marvelapiproject.contentprovider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/quadrinhos");
 
-    public static final String URL = "content://com.e.marvelapiproject.contentprovider/quadrinhos/";
-
     public static final int QUADRINHO = 1;
     public static final int QUADRINHO_ID = 2;
 

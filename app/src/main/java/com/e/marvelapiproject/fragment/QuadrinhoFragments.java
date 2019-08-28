@@ -51,7 +51,7 @@ public class QuadrinhoFragments extends Fragment implements RecycleViewOnClickLi
         llm.setOrientation(RecyclerView.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
 
-        mList = ((MainActivity)getActivity()).queryDadosContent(20);
+        mList = ((MainActivity)getActivity()).queryDadosContent();
         QuadrinhoAdapter adapter = new QuadrinhoAdapter(getActivity(),mList);
         mRecyclerView.setAdapter(adapter);
 

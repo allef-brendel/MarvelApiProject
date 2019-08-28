@@ -10,6 +10,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 import com.e.marvelapiproject.db.Database;
 
@@ -40,7 +41,6 @@ public class MarvelContentProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
         qb.setTables(Database.QUADRINHO_TABLE_NAME);
-
         switch (uriMatcher.match(uri)){
             case Authority.QUADRINHO:
                 break;
@@ -60,13 +60,15 @@ public class MarvelContentProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
-        long rowID = db.insert(	Database.QUADRINHO_TABLE_NAME, null, contentValues);
+
+        long rowID = db.insert(Database.QUADRINHO_TABLE_NAME, null, contentValues);
 
         if (rowID > 0) {
             Uri _uri = ContentUris.withAppendedId(Authority.CONTENT_URI, rowID);
             getContext().getContentResolver().notifyChange(_uri, null);
             return _uri;
         }
+
         throw new SQLException("Falha  " + uri);
     }
 
