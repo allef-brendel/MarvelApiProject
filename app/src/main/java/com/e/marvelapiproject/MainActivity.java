@@ -31,34 +31,34 @@ public class MainActivity extends AppCompatActivity {
         fragment();
     }
 
-        // Toolbar da tela de listagem
-        public void toolbar(){
-            Toolbar mToolbar = findViewById(R.id.tb_main);
-            mToolbar.setTitle("    Marvel Comics");
-            mToolbar.setSubtitle("    Quadrinhos Marvel");
-            mToolbar.setLogo(R.drawable.marvel_simbolo);
-            setSupportActionBar(mToolbar);
-        }
+    // Toolbar da tela de listagem
+    public void toolbar() {
+        Toolbar mToolbar = findViewById(R.id.tb_main);
+        mToolbar.setTitle("    Marvel Comics");
+        mToolbar.setSubtitle("    Quadrinhos Marvel");
+        mToolbar.setLogo(R.drawable.marvel_simbolo);
+        setSupportActionBar(mToolbar);
+    }
 
     //  Fragment
-        public void fragment(){
-            QuadrinhoFragments frag = (QuadrinhoFragments) getSupportFragmentManager().findFragmentByTag("person_frag");
-            if (frag == null) {
-                frag = new QuadrinhoFragments();
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.rl_fragment_container, frag, "person_frag");
-                ft.commit();
-            }
+    public void fragment() {
+        QuadrinhoFragments frag = (QuadrinhoFragments) getSupportFragmentManager().findFragmentByTag("person_frag");
+        if (frag == null) {
+            frag = new QuadrinhoFragments();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.rl_fragment_container, frag, "person_frag");
+            ft.commit();
         }
+    }
 
-    public List<Quadrinho> queryDadosContent (int quant ){
+    public List<Quadrinho> queryDadosContent(int quant) {
         String[] colunas = new String[]{Database.TITLE, Database.DESCRIPITION, Database.PRICE, Database.ID, Database.PAGECOUNT, Database.URL};
 
         List<Quadrinho> listAux = new ArrayList<>();
         Cursor cursor = getContentResolver().query(Authority.CONTENT_URI, colunas, null, null, null);
 
-        if (cursor.moveToFirst()){
-            while (cursor.moveToNext()){
+        if (cursor.moveToFirst()) {
+            do {
                 String title = cursor.getString(cursor.getColumnIndex(Database.TITLE));
                 String descripition = cursor.getString(cursor.getColumnIndex(Database.DESCRIPITION));
                 String price = cursor.getString(cursor.getColumnIndex(Database.PRICE));
@@ -67,13 +67,12 @@ public class MainActivity extends AppCompatActivity {
                 String url = cursor.getString(cursor.getColumnIndex(Database.URL));
 
                 listAux.add(new Quadrinho(title, descripition, price, id, pagcount, url));
-            }
-        }else{
-            Log.i("TAG>>>", "Else");
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return listAux;
     }
+
 
     @Override
     public boolean onCreateOptionsMenu (Menu menu){

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,10 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.e.marvelapiproject.contentprovider.Authority;
 import com.e.marvelapiproject.db.Database;
+import com.e.marvelapiproject.pojo.Quadrinho;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class QuadrinhoDetalheActivity extends AppCompatActivity {
@@ -32,6 +37,8 @@ public class QuadrinhoDetalheActivity extends AppCompatActivity {
     private Button button2;
     private EditText editText;
 
+    private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,39 +51,44 @@ public class QuadrinhoDetalheActivity extends AppCompatActivity {
 
         public void setTextQuery(){
             Intent it = getIntent();
-            int position = it.getIntExtra("position", -1);
-            int result = (position + 1);
+            int position = it.getIntExtra("position", 0);
+
+            List<Quadrinho> listAux = new ArrayList<>();
 
             String[] colunas = new String[]{Database.TITLE, Database.DESCRIPITION, Database.PRICE, Database.PAGECOUNT, Database.URL};
 
-            Uri uri = Uri.parse(Authority.URL + result);
+            Cursor cursor = getContentResolver().query(Authority.CONTENT_URI , colunas, null, null, null);
 
-            Cursor cursor = getContentResolver().query(uri , colunas, null, null, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    String title = cursor.getString(cursor.getColumnIndex(Database.TITLE));
+                    String descripition = cursor.getString(cursor.getColumnIndex(Database.DESCRIPITION));
+                    String price = cursor.getString(cursor.getColumnIndex(Database.PRICE));
+                    String pagcount = cursor.getString(cursor.getColumnIndex(Database.PAGECOUNT));
+                    String url = cursor.getString(cursor.getColumnIndex(Database.URL));
 
-            final String title = cursor.getString(cursor.getColumnIndex(Database.TITLE));
-            String descripition = cursor.getString(cursor.getColumnIndex(Database.DESCRIPITION));
-            final String price = cursor.getString(cursor.getColumnIndex(Database.PRICE));
-            String pagcount = cursor.getString(cursor.getColumnIndex(Database.PAGECOUNT));
-            String url = cursor.getString(cursor.getColumnIndex(Database.URL));
+                    listAux.add(new Quadrinho(title, descripition, price, null, pagcount, url));
+                } while (cursor.moveToNext());
+            }
 
-            Glide.with(this).load(url + "/portrait_medium.jpg").into(imageView);
+                Glide.with(this).load(listAux.get(position).getUrl() + "/portrait_medium.jpg").into(imageView);
 
-            tvtitle.setText(title);
-            tvdescription.setText(descripition);
-            tvprice.setText("R$ " + price);
-            tvpagcount.setText("Pag: " + pagcount);
+                tvtitle.setText(listAux.get(position).getTitulo());
+                tvdescription.setText(listAux.get(position).getDescricao());
+                tvprice.setText("R$ " + listAux.get(position).getPrecos());
+                tvpagcount.setText("Pag: " + listAux.get(position).getQuantPaginas());
 
-            button2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                intent = new Intent(QuadrinhoDetalheActivity.this, CarrinhoDeCompras.class);
+                intent.putExtra("titulo", listAux.get(position).getTitulo());
+                intent.putExtra("preco", listAux.get(position).getPrecos());
 
-                    Intent intent = new Intent(QuadrinhoDetalheActivity.this, CarrinhoDeCompras.class);
-                    intent.putExtra("titulo", title);
-                    intent.putExtra("preco", price);
-                    intent.putExtra("quant", editText.getText().toString());
-                    startActivity(intent);
-                }
-            });
+                button2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        intent.putExtra("quant", editText.getText().toString());
+                        startActivity(intent);
+                    }
+                });
             cursor.close();
         }
 

@@ -4,7 +4,6 @@
     package="com.e.marvelapiproject" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.example.contentproviderexemplo.PERMISSION"/>
 
     <application
         android:name=".dagger.customclass.ModuleApplication"
@@ -40,7 +39,7 @@
             android:enabled="true"
             android:exported="true"
             android:multiprocess="true"
-            android:readPermission="com.example.contentproviderexemplo.PERMISSION">
+            android:readPermission="com.e.marvelapiproject.contentprovider.PERMISSION">
 
         </provider>
 
