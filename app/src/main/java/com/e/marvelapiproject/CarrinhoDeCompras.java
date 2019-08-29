@@ -42,9 +42,6 @@ public class CarrinhoDeCompras extends AppCompatActivity {
 
     private Intent it;
 
-    private List<String[]> listAdd;
-    private List<String> produtos;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +62,16 @@ public class CarrinhoDeCompras extends AppCompatActivity {
 
         itemListView();
         buttonsCarrinho();
+    }
+
+    // Toolbar
+    public void toolbar(){
+        mToolbar = findViewById(R.id.tb_main);
+        mToolbar.setTitle(" Marvel Comics");
+        mToolbar.setSubtitle(" Descrição Quadrinho");
+        mToolbar.setLogo(R.drawable.marvel_simbolo);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void itemListView(){
@@ -93,38 +100,16 @@ public class CarrinhoDeCompras extends AppCompatActivity {
         });
     }
 
-    // Toolbar
-    public void toolbar(){
-        mToolbar = findViewById(R.id.tb_main);
-        mToolbar.setTitle(" Marvel Comics");
-        mToolbar.setSubtitle(" Descrição Quadrinho");
-        mToolbar.setLogo(R.drawable.marvel_simbolo);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
     public void buttonsCarrinho(){
 
         // Listener do Botao Comprar
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String quantidadeQuadrinhos = it.getStringExtra("quant");
-                String precoCarrinho = it.getStringExtra("preco");
 
-                DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
-
-                double total = 0;
-
-                for(int i = 0; i < produtos.size(); i++) {
-                    double result =(Double.parseDouble(quantidadeQuadrinhos)*Integer.parseInt(precoCarrinho));
-
-                    total += result;
-                }
 
                 final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CarrinhoDeCompras.this);
-                alertDialogBuilder.setMessage("Deseja Comprar?" +"\n"+
-                        "Total a ser pago: " + ""+decimalFormat.format(total) + " $");
+                alertDialogBuilder.setMessage("Deseja Comprar?");
                 alertDialogBuilder.setCancelable(false);
                 alertDialogBuilder.setPositiveButton("Sim",
                         new DialogInterface.OnClickListener() {
