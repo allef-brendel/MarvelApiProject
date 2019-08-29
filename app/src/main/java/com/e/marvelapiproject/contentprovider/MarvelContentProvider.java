@@ -21,8 +21,8 @@ public class MarvelContentProvider extends ContentProvider {
     static final UriMatcher uriMatcher;
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(Authority.AUTHORITY, "quadrinho", Authority.QUADRINHO);
-        uriMatcher.addURI(Authority.AUTHORITY, "quadrinho/#", Authority.QUADRINHO_ID);
+        uriMatcher.addURI(Authority.AUTHORITY, "quadrinhos", Authority.QUADRINHO);
+        uriMatcher.addURI(Authority.AUTHORITY, "quadrinhos/#", Authority.QUADRINHO_ID);
     }
 
     @Override
@@ -82,7 +82,8 @@ public class MarvelContentProvider extends ContentProvider {
                 break;
             case Authority.QUADRINHO_ID:
                 String id = uri.getLastPathSegment();
-                linha = db.delete(Database.QUADRINHO_TABLE_NAME, Database._ID + "=" + id, strings);
+                String args[] = {id};
+                linha = db.delete(Database.QUADRINHO_TABLE_NAME, Database._ID + " = ?", args);
                 break;
         }
         getContext().getContentResolver().notifyChange(uri, null);

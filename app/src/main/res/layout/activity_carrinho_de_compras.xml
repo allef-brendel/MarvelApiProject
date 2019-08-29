@@ -28,47 +28,93 @@
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp">
 
-    <TextView
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:id="@+id/textCarrinhoTitulo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <TextView
-            android:layout_width="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:layout_height="wrap_content"
-            android:text="R$ "/>
-
-        <TextView
-            android:paddingLeft="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:id="@+id/textPrecoProduto"
+            android:id="@+id/textCarrinhoTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
 
-        <TextView
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Qtd: "/>
-
-        <TextView
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:paddingLeft="10dp"
-            android:id="@+id/textQuantProduto"
-            android:layout_weight="1"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_height="wrap_content"
+                android:text="R$ "/>
+
+            <TextView
+                android:paddingLeft="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:id="@+id/textPrecoProduto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Qtd: "/>
+
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:paddingLeft="10dp"
+                android:id="@+id/textQuantProduto"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:textSize="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/botaoComprarCarrinho"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:background="@color/colorPrimary"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/md_white_1000"
+                android:padding="5dp"
+                android:text="Comprar"/>
+
+            <Button
+                android:textSize="12dp"
+                android:layout_weight="1"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:id="@+id/botaoAdicionarCarrinho"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/md_white_1000"
+                android:padding="5dp"
+                android:text="adicionar item"/>
+
+
+        </LinearLayout>
+        <ListView
+            android:id="@+id/listViewCarrinho"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
     </LinearLayout>
 </RelativeLayout>

@@ -61,8 +61,8 @@ public class CarregarDadosJSON extends AppCompatActivity {
 
         String select = "SELECT count(*) FROM " + Database.QUADRINHO_TABLE_NAME;
         Cursor cursor = db.rawQuery(select, null);
-
         cursor.moveToFirst();
+
         int count = cursor.getInt(0);
 
         if(count>0){
