@@ -40,12 +40,18 @@ public class CarrinhoDeCompras extends AppCompatActivity {
     private Button button;
     private Button button2;
 
+    private List<String> listAux;
+
+    private ArrayAdapter<String> adapter;
+
     private Intent it;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrinho_de_compras);
+
+        listAux = new ArrayList<>();
 
         idConfiguration();
         toolbar();
@@ -75,27 +81,24 @@ public class CarrinhoDeCompras extends AppCompatActivity {
     }
 
     public void itemListView(){
-        List<String> listAux = queryDadosContent();
+        listAux = queryDadosContent();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(),R.layout.my_text_size, android.R.id.text1, listAux);
+        adapter = new ArrayAdapter<>(getBaseContext(),R.layout.my_text_size, android.R.id.text1, listAux);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String[] colunas = new String[]{ Database.ITEM};
 
                 Uri uri = Uri.parse(Authority.URL + (position + 21));
 
+                Log.e("itemListView ", "" + (position + 21));
+
                 getContentResolver().delete(uri, null, null);
 
-                Cursor cursor = getContentResolver().query(uri, colunas, null, null, null);
+                listAux.remove(position);
 
-                if (cursor.moveToFirst()) {
-                    do {
-                        String item = cursor.getString(cursor.getColumnIndex(Database.ITEM));
-                        Log.e("raff", item);
-                    } while (cursor.moveToNext());
-                }
+                adapter = new ArrayAdapter<>(getBaseContext(), R.layout.my_text_size, android.R.id.text1, listAux);
+                listView.setAdapter(adapter);
             }
         });
     }
@@ -107,7 +110,6 @@ public class CarrinhoDeCompras extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CarrinhoDeCompras.this);
                 alertDialogBuilder.setMessage("Deseja Comprar?");
                 alertDialogBuilder.setCancelable(false);
@@ -115,7 +117,7 @@ public class CarrinhoDeCompras extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Toast.makeText(CarrinhoDeCompras.this, "Compra Realizada com Sucesso", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CarrinhoDeCompras.this, "Compra realizada com sucesso", Toast.LENGTH_SHORT).show();
                             }
                         });
                 alertDialogBuilder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
@@ -134,13 +136,15 @@ public class CarrinhoDeCompras extends AppCompatActivity {
             public void onClick(View v) {
 
                 final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CarrinhoDeCompras.this);
-                alertDialogBuilder.setMessage("Deseja adicionar ao carrinho?");
+                alertDialogBuilder.setMessage("Deseja adicionar o item ao carrinho?");
                 alertDialogBuilder.setCancelable(false);
                 alertDialogBuilder.setPositiveButton("Sim",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int x) {
                                 addItemBD();
+                                Toast.makeText(CarrinhoDeCompras.this, "Item adicionado", Toast.LENGTH_SHORT).show();
+                                itemListView();
                             }
                         });
                 alertDialogBuilder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
@@ -152,7 +156,6 @@ public class CarrinhoDeCompras extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-
     }
 
     public List<String> queryDadosContent() {
@@ -160,13 +163,12 @@ public class CarrinhoDeCompras extends AppCompatActivity {
 
         Uri uri = Uri.parse(Authority.URL);
 
-        List<String> listAux = new ArrayList<>();
         Cursor cursor = getContentResolver().query(uri, colunas, null, null, null);
 
         if (cursor.move(21)) {
             do {
                 String item = cursor.getString(cursor.getColumnIndex(Database.ITEM));
-
+                Log.e("TAG: ", item);
                 listAux.add(item);
             } while (cursor.moveToNext());
         }
@@ -200,9 +202,9 @@ public class CarrinhoDeCompras extends AppCompatActivity {
         precoQuadrinho = findViewById(R.id.textPrecoProduto);
         titulo = findViewById(R.id.textCarrinhoTitulo);
         quantQuadrinhos = findViewById(R.id.textQuantProduto);
-        listView = findViewById(R.id.listViewCarrinho);
-        button = findViewById(R.id.botaoAdicionarCarrinho);
-        button2 = findViewById(R.id.botaoComprarCarrinho);
+        listView = findViewById(R.id.listViewCarrinho2);
+        button = findViewById(R.id.botaoAdicionarCarrinho2);
+        button2 = findViewById(R.id.botaoComprarCarrinho2);
     }
 
     @Override

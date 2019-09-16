@@ -10,6 +10,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.e.marvelapiproject.db.Database;
@@ -17,6 +18,7 @@ import com.e.marvelapiproject.db.Database;
 public class MarvelContentProvider extends ContentProvider {
 
     private SQLiteDatabase db;
+    private Database bd;
 
     static final UriMatcher uriMatcher;
     static {
@@ -28,7 +30,7 @@ public class MarvelContentProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         Context context = getContext();
-        Database bd = new Database(context);
+        bd = new Database(context);
         db = bd.getWritableDatabase();
 
         if (db != null){
@@ -60,6 +62,7 @@ public class MarvelContentProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
+        SQLiteDatabase db = bd.getWritableDatabase();
 
         long rowID = db.insert(Database.QUADRINHO_TABLE_NAME, null, contentValues);
 
@@ -73,17 +76,18 @@ public class MarvelContentProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String s, String[] strings) {
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
         int linha = 0;
+        SQLiteDatabase db = bd.getWritableDatabase();
 
         switch (uriMatcher.match(uri)){
             case Authority.QUADRINHO:
                 db.delete(Database.QUADRINHO_TABLE_NAME, null, null);
                 break;
             case Authority.QUADRINHO_ID:
-                String id = uri.getLastPathSegment();
-                String args[] = {id};
-                linha = db.delete(Database.QUADRINHO_TABLE_NAME, Database._ID + " = ?", args);
+                String id = uri.getPathSegments().get(1);
+                linha = db.delete( Database.QUADRINHO_TABLE_NAME, Database._ID +  " = " + id +
+                                (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
                 break;
         }
         getContext().getContentResolver().notifyChange(uri, null);
@@ -93,6 +97,7 @@ public class MarvelContentProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues contentValues, String s, String[] strings) {
         int linha = 0;
+        SQLiteDatabase db = bd.getWritableDatabase();
 
         switch (uriMatcher.match(uri)){
             case Authority.QUADRINHO:

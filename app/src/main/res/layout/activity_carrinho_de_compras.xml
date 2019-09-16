@@ -81,7 +81,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:id="@+id/botaoComprarCarrinho"
+                android:id="@+id/botaoComprarCarrinho2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -97,7 +97,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
-                android:id="@+id/botaoAdicionarCarrinho"
+                android:id="@+id/botaoAdicionarCarrinho2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
@@ -109,7 +109,7 @@
 
         </LinearLayout>
         <ListView
-            android:id="@+id/listViewCarrinho"
+            android:id="@+id/listViewCarrinho2"
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">

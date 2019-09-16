@@ -38,7 +38,6 @@ public class CarregarDadosJSON extends AppCompatActivity {
     private static final String TAG = "COMICS";
 
     private ProgressDialog pdia;
-    private SQLiteDatabase db;
 
     @Inject
     Retrofit retrofit;
@@ -57,7 +56,7 @@ public class CarregarDadosJSON extends AppCompatActivity {
 
     private void verificarBDVazio() {
         Database bd = new Database(CarregarDadosJSON.this);
-        db = bd.getWritableDatabase();
+        SQLiteDatabase db = bd.getWritableDatabase();
 
         String select = "SELECT count(*) FROM " + Database.QUADRINHO_TABLE_NAME;
         Cursor cursor = db.rawQuery(select, null);
@@ -67,18 +66,18 @@ public class CarregarDadosJSON extends AppCompatActivity {
 
         if(count>0){
             pdia.cancel();
-            passarIntent();
+            startIntent();
         }else {
             obterDados();
         }
     }
 
     // Metodo para obter os dados da API
-        String ts = Long.toString(System.currentTimeMillis() / 1000);
+
         private void obterDados() {
 
+            String ts = Long.toString(System.currentTimeMillis() / 1000);
             ((ModuleApplication)getApplication()).getNetworkComponent().inject(this);
-
             String hash = md5(ts + PRIVATE_KEY + PUBLIC_KEY);
 
         APIInterface service = retrofit.create(APIInterface.class);
@@ -123,7 +122,7 @@ public class CarregarDadosJSON extends AppCompatActivity {
                     getContentResolver().insert(Authority.CONTENT_URI, values);
                 }
                 pdia.cancel();
-                passarIntent();
+                startIntent();
             }
 
             @Override
@@ -133,7 +132,7 @@ public class CarregarDadosJSON extends AppCompatActivity {
         });
     }
 
-    public void passarIntent(){
+    public void startIntent(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -147,7 +146,7 @@ public class CarregarDadosJSON extends AppCompatActivity {
             MessageDigest digest = java.security.MessageDigest
                     .getInstance(MD5);
             digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
+            byte[] messageDigest = digest.digest();
 
             // Criar Hex String
             StringBuilder hexString = new StringBuilder();

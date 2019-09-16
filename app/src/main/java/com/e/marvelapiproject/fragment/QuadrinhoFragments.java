@@ -32,10 +32,7 @@ import java.util.List;
 
 public class QuadrinhoFragments extends Fragment implements RecycleViewOnClickListinerHack, View.OnClickListener {
 
-    public static final String TAG = "TAG: ";
-
-    public RecyclerView mRecyclerView;
-    public List<Quadrinho> mList;
+    private static final String TAG = "TAG: ";
 
     @Nullable
     @Override
@@ -43,16 +40,16 @@ public class QuadrinhoFragments extends Fragment implements RecycleViewOnClickLi
         View view = inflater.inflate(R.layout.fragment_personagens,container, false);
 
         //RecyclerView
-        mRecyclerView = view.findViewById(R.id.rv_fragment);
+        RecyclerView mRecyclerView = view.findViewById(R.id.rv_fragment);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(getActivity(),mRecyclerView,this));
+        mRecyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(getActivity(), mRecyclerView,this));
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(RecyclerView.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
 
-        mList = ((MainActivity)getActivity()).queryDadosContent();
-        QuadrinhoAdapter adapter = new QuadrinhoAdapter(getActivity(),mList);
+        List<Quadrinho> mList = ((MainActivity) getActivity()).queryDadosContent();
+        QuadrinhoAdapter adapter = new QuadrinhoAdapter(getActivity(), mList);
         mRecyclerView.setAdapter(adapter);
 
         return view;

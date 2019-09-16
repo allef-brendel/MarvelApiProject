@@ -55,12 +55,12 @@ import java.util.List;
 
         public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-            public ImageView iv_personagem;
-            public TextView tv_nome;
-            public TextView tv_clan;
-            public TextView tv_preco;
+            ImageView iv_personagem;
+            TextView tv_nome;
+            TextView tv_clan;
+            TextView tv_preco;
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 iv_personagem = itemView.findViewById(R.id.iv_personagem);

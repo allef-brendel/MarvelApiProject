@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected (MenuItem item){
 
-        Toast.makeText(this, "Botão Configurações Precionado", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Configurações", Toast.LENGTH_SHORT).show();
 
         return super.onOptionsItemSelected(item);
     }

@@ -15,9 +15,9 @@ public class Database extends SQLiteOpenHelper{
     public static final String  URL = "url";
     public static final String  ITEM = "item";
 
-    public static final String DATABASE_NAME = "quadrinhosBD";
+    private static final String DATABASE_NAME = "quadrinhosBD";
     public static final String QUADRINHO_TABLE_NAME = "quadrinhos";
-    public static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 1;
     private static final String CREATE_DB_TABLE =
             " CREATE TABLE quadrinhos (_id INTEGER PRIMARY KEY AUTOINCREMENT,  title TEXT,  description TEXT,  price TEXT,  id TEXT,  pagecount TEXT,  url TEXT,  item TEXT);";
 
